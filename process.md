@@ -66,4 +66,42 @@ Khi thực hiện commit mới, hãy sao chép mẫu dưới đây và điền �
   - Hệ thống Nhúng và Robotics có khối lượng kiến thức rất rộng và giao thoa nhiều ngành (Điện tử, Phần mềm nhúng, Toán giải tích, Động lực học, AI). Cần chia nhỏ theo cấu trúc module độc lập để người học không bị ngợp.
   - Phải ưu tiên công cụ mô phỏng mã nguồn mở (Wokwi, Gazebo) song song với kit phần cứng thật để người học có thể thực hành ngay mà không bị rào cản chi phí.
 - **🚀 Kế hoạch cho commit tiếp theo**:
-  - Soạn bài học đầu tiên trong `00-prerequisites/01-c-memory-layout.md` về Bản đồ bộ nhớ trong C (Stack, Heap, BSS, Data, Text) dành cho dân nhúng kèm bài Quiz và sơ đồ minh họa.
+  - Triển khai ứng dụng Web Hub tương tác và hoàn thiện nội dung các bài học từ Level 0 đến Level 6.
+
+---
+
+### [2026-09-22] - Commit: `feat(app): Hoàn thiện nền tảng Web Learning Hub và toàn bộ khóa học Level 0 tới Level 6`
+
+- **🎯 Mục tiêu của commit**:
+  - Xây dựng ứng dụng Web tương tác hoàn chỉnh (Single Page Application) phục vụ tự học Hệ thống Nhúng & Robotics từ Level 0 đến Level 6.
+  - Tích hợp 5 bộ mô phỏng thực tế (Simulators): Bộ nhớ C, Thanh ghi GPIO STM32, Cân chỉnh PID, Động học xe robot vi sai và Bộ phân tích xung Logic.
+  - Xây dựng hệ thống Đấu trường Quiz với chấm điểm thời gian thực, lưu tiến độ vào LocalStorage và giải thích cặn kẽ từng câu hỏi.
+  - Biên soạn toàn diện các bài học trọng tâm từ Level 0 (Bản đồ bộ nhớ C) đến Level 6 (Capstone Xe tự hành AMR thông minh).
+- **📝 Chi tiết thay đổi**:
+  - `index.html`: Giao diện Web Hub 5 tab (Bài giảng, Đấu trường Quiz, Phòng mô phỏng, Bản đồ Roadmap, Nhật ký Commit).
+  - `app.css`: Giao diện Dark-Theme hiện đại, responsive, hỗ trợ hiệu ứng mạch điện, bóng LED, đồ thị Canvas.
+  - `data/curriculum.js`: Cơ sở dữ liệu toàn bộ bài giảng, code mẫu C/C++, phân tích thanh ghi và ngân hàng câu hỏi Quiz từ Level 0 đến Level 6.
+  - `data/simulators.js`: Động cơ mô phỏng tương tác 5 phòng lab (Memory Map, GPIO Bitfields, PID Canvas, Differential Drive Robot, Serial Waveforms).
+  - `app.js`: Bộ điều khiển trung tâm quản lý chuyển tab, lọc tìm kiếm, tính toán điểm số và lưu tiến độ học tập.
+  - Thêm các bài học chi tiết dạng Markdown:
+    - `00-prerequisites/01-c-memory-layout.md`
+    - `01-embedded-fundamentals/01-baremetal-gpio.md`
+    - `02-mcu-architecture-arm/01-arm-cortex-m-core.md`
+    - `03-rtos-concurrency/01-freertos-multitasking.md`
+    - `04-robotics-foundations/01-pid-closed-loop.md`
+    - `05-ros2-and-simulation/01-ros2-architecture-and-microros.md`
+    - `06-advanced-edge-ai/01-capstone-autonomous-mobile-robot.md`
+- **🗺️ Tiến độ trên Roadmap (`tech.md`)**:
+  - [x] Level 0: Hoàn thành bài học C Memory Layout & Math.
+  - [x] Level 1: Hoàn thành bài học Bare-metal GPIO & Timers/Serial.
+  - [x] Level 2: Hoàn thành bài học ARM Cortex-M Core & FreeRTOS.
+  - [x] Level 3: Hoàn thành bài học Mạng CAN Bus & Embedded Linux.
+  - [x] Level 4: Hoàn thành bài học PID Closed-loop & Kinematics.
+  - [x] Level 5: Hoàn thành bài học ROS2 Core, Micro-ROS, SLAM & Nav2.
+  - [x] Level 6: Hoàn thành bài học Đồ án Capstone AMR tự hành toàn diện.
+- **💡 Khó khăn, Lỗi gặp phải & Lưu ý kỹ thuật (Gotchas)**:
+  - Việc mô phỏng động học xe 2 bánh vi sai đòi hỏi tích phân Euler góc theta chính xác ở chu kỳ cao để tránh sai số lũy tiến (Drift).
+  - Mô phỏng khâu chống bão hòa tích phân (Anti-windup) của PID cần tính toán clamping trước khi nạp vào thanh ghi bão hòa để hệ thống không bị trễ pha.
+- **🚀 Kế hoạch cho commit tiếp theo**:
+  - Người dùng kiểm tra trực tiếp các chức năng trên ứng dụng và đóng góp phản hồi về phần cứng thực tế.
+

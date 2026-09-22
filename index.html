@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Embedded Systems & Robotics Engineering Hub</title>
+  <link rel="stylesheet" href="app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-box">
+        <div class="logo-icon">⚡🤖</div>
+        <div class="logo-text">
+          <h1>EMBEDDED & ROBOTICS</h1>
+          <span class="subtext">Full Course & Interactive Engineering Hub</span>
+        </div>
+      </div>
+      <div class="header-badge">Level 0 ➔ Level 6</div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="app-nav">
+      <button class="nav-btn active" data-tab="curriculum">
+        <span class="btn-icon">📚</span>
+        <span class="btn-label">Bài Giảng (Courses)</span>
+      </button>
+      <button class="nav-btn" data-tab="quiz">
+        <span class="btn-icon">🧩</span>
+        <span class="btn-label">Đấu Trường Quiz</span>
+      </button>
+      <button class="nav-btn" data-tab="simulators">
+        <span class="btn-icon">🔬</span>
+        <span class="btn-label">Mô Phỏng Thực Tế</span>
+      </button>
+      <button class="nav-btn" data-tab="roadmap">
+        <span class="btn-icon">🗺️</span>
+        <span class="btn-label">Bản Đồ Lộ Trình</span>
+      </button>
+      <button class="nav-btn" data-tab="process">
+        <span class="btn-icon">📝</span>
+        <span class="btn-label">Nhật Ký Commit</span>
+      </button>
+    </nav>
+
+    <!-- Header Stats & Theme Toggle -->
+    <div class="header-right">
+      <div class="progress-pill">
+        <span class="progress-label">Tiến Độ:</span>
+        <div class="progress-bar-mini">
+          <div class="progress-fill" id="headerProgressFill" style="width: 0%"></div>
+        </div>
+        <span class="progress-num" id="headerProgressText">0%</span>
+      </div>
+      <button class="icon-btn" id="themeToggle" title="Đổi giao diện sáng/tối">🌓</button>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar + Content -->
+  <div class="app-layout">
+    <!-- Sidebar: Level & Topic Selector -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <h2>LỘ TRÌNH 6 CẤP ĐỘ</h2>
+        <div class="search-box">
+          <input type="text" id="lessonSearch" placeholder="🔍 Tìm kiếm bài học, từ khóa...">
+        </div>
+      </div>
+
+      <div class="level-accordion-list" id="levelAccordionList">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-content" id="appContent">
+      <!-- TAB 1: CURRICULUM VIEW (Default) -->
+      <section class="tab-pane active" id="pane-curriculum">
+        <div class="curriculum-container" id="curriculumContainer">
+          <!-- Active Lesson Header -->
+          <div class="lesson-header-banner" id="lessonHeaderBanner">
+            <div class="lesson-meta-tags">
+              <span class="tag-level" id="lessonLevelTag">Level 0</span>
+              <span class="tag-duration" id="lessonDurationTag">⏱️ 45 phút</span>
+              <span class="tag-difficulty" id="lessonDifficultyTag">Cơ bản</span>
+            </div>
+            <h1 class="lesson-title" id="lessonTitle">Chọn một bài học từ danh mục bên trái để bắt đầu</h1>
+            <p class="lesson-desc" id="lessonDesc">Nắm vững các nguyên lý vật lý, kiến trúc phần cứng, phân tích thanh ghi và giải thuật robotics từ gốc.</p>
+          </div>
+
+          <!-- Lesson Action Toolbar -->
+          <div class="lesson-toolbar">
+            <button class="action-btn" id="btnToggleCompleted">
+              <span id="completedBtnIcon">⚪</span> <span id="completedBtnText">Đánh dấu đã hoàn thành</span>
+            </button>
+            <button class="action-btn secondary" id="btnJumpToQuiz">
+              <span>🎯 Làm Quiz bài này</span>
+            </button>
+            <button class="action-btn secondary" id="btnOpenSim">
+              <span>🔬 Mở phòng mô phỏng liên quan</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Lesson Content Body -->
+          <article class="lesson-body-markdown" id="lessonBodyMarkdown">
+            <!-- Full comprehensive lecture content rendered here -->
+          </article>
+
+          <!-- Embedded Quiz for Active Lesson -->
+          <div class="embedded-quiz-section" id="embeddedQuizSection">
+            <div class="section-title-bar">
+              <h2>🎯 BÀI TẬP TRẮC NGHIỆM CỦNG CỐ KIẾN THỨC</h2>
+              <span class="quiz-count-badge" id="quizCountBadge">3 câu hỏi</span>
+            </div>
+            <div class="quiz-cards-list" id="embeddedQuizList">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: QUIZ ARENA -->
+      <section class="tab-pane" id="pane-quiz">
+        <div class="quiz-arena-container">
+          <div class="arena-header">
+            <div class="arena-title-group">
+              <h1>🧩 ĐẤU TRƯỜNG QUIZ EMBEDDED & ROBOTICS</h1>
+              <p>Thử thách tư duy phân tích mạch, trace lỗi bộ nhớ C/C++, chẩn đoán xung truyền thông và điều khiển robot.</p>
+            </div>
+            <div class="arena-filters">
+              <label for="quizLevelFilter">Lọc theo Level:</label>
+              <select id="quizLevelFilter">
+                <option value="all">Tất cả các Level</option>
+                <option value="0">Level 0: Nền tảng Toán & CS</option>
+                <option value="1">Level 1: MCU & Ngoại vi Bare-metal</option>
+                <option value="2">Level 2: ARM Cortex-M & RTOS</option>
+                <option value="3">Level 3: Nhúng nâng cao & CAN Bus</option>
+                <option value="4">Level 4: Robotics & PID/Kalman</option>
+                <option value="5">Level 5: ROS2, SLAM & Simulation</option>
+                <option value="6">Level 6: Capstone AMR & Edge AI</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Quiz Stats Overview -->
+          <div class="quiz-score-cards">
+            <div class="score-card">
+              <span class="score-num" id="totalQuizAnswered">0</span>
+              <span class="score-label">Câu đã trả lời</span>
+            </div>
+            <div class="score-card">
+              <span class="score-num text-success" id="totalQuizCorrect">0</span>
+              <span class="score-label">Trả lời chính xác</span>
+            </div>
+            <div class="score-card">
+              <span class="score-num text-primary" id="totalQuizAccuracy">0%</span>
+              <span class="score-label">Tỷ lệ chính xác</span>
+            </div>
+            <div class="score-card">
+              <button class="reset-quiz-btn" id="btnResetQuizProgress">🔄 Làm lại từ đầu</button>
+            </div>
+          </div>
+
+          <!-- Quiz Arena List -->
+          <div class="quiz-cards-list full-width" id="arenaQuizList">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: INTERACTIVE SIMULATORS -->
+      <section class="tab-pane" id="pane-simulators">
+        <div class="simulators-container">
+          <div class="sim-header">
+            <h1>🔬 PHÒNG THÍ NGHIỆM & MÔ PHỎNG TƯƠNG TÁC TRỰC QUAN</h1>
+            <p>Học bằng cách trải nghiệm: Tương tác trực tiếp với bộ nhớ, thanh ghi vi điều khiển, cân chỉnh bộ điều khiển PID và chuyển động robot.</p>
+          </div>
+
+          <div class="sim-tabs">
+            <button class="sim-tab-btn active" data-sim="memory">1. Bộ Nhớ C (Memory Map)</button>
+            <button class="sim-tab-btn" data-sim="gpio">2. Thanh Ghi GPIO & LED</button>
+            <button class="sim-tab-btn" data-sim="pid">3. Bộ Điều Khiển PID</button>
+            <button class="sim-tab-btn" data-sim="robot">4. Động Học Xe Robot Vi Sai</button>
+            <button class="sim-tab-btn" data-sim="serial">5. Giản Đồ Xung UART/SPI/I2C</button>
+          </div>
+
+          <!-- SIMULATOR 1: MEMORY LAYOUT -->
+          <div class="sim-content-pane active" id="sim-memory">
+            <div class="sim-card">
+              <div class="sim-card-header">
+                <h3>Phân Vùng Bộ Nhớ Trong Lập Trình C Nhúng</h3>
+                <span class="badge">Virtual Memory Simulator</span>
+              </div>
+              <p class="sim-desc">Quan sát cơ chế phân bổ ô nhớ giữa Stack, Heap, BSS, Data và Text Segment. Click vào các nút hành động để xem biến được cấp phát vào phân vùng nào.</p>
+              
+              <div class="sim-grid-two">
+                <div class="sim-controls-panel">
+                  <h4>Thao Tác Cấp Phát Bộ Nhớ</h4>
+                  <div class="btn-group-vertical">
+                    <button class="sim-action-btn" id="btnAllocStack">➕ Gọi Hàm & Cấp Phát Biến Cục Bộ (Stack Push)</button>
+                    <button class="sim-action-btn" id="btnPopStack">➖ Thoát Hàm (Stack Pop)</button>
+                    <button class="sim-action-btn" id="btnAllocHeap">📦 Cấp Phát Động malloc(32) (Heap)</button>
+                    <button class="sim-action-btn" id="btnFreeHeap">🗑️ Giải Phóng free() Ô Nhớ Heap</button>
+                    <button class="sim-action-btn secondary" id="btnTriggerStackOverflow">⚠️ Thử Nghiệm Tràn Ngăn Xếp (Stack Overflow)</button>
+                    <button class="sim-action-btn outline" id="btnResetMemory">🔄 Đặt Lại Trạng Thái Ban Đầu</button>
+                  </div>
+                  <div class="sim-log-box" id="memoryLogBox">
+                    <div class="log-entry system">[System] Khởi động vi điều khiển. Vector Table và .text segment đã được nạp vào Flash (0x08000000).</div>
+                  </div>
+                </div>
+
+                <div class="memory-visualizer" id="memoryVisualizer">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR 2: GPIO REGISTERS -->
+          <div class="sim-content-pane" id="sim-gpio">
+            <div class="sim-card">
+              <div class="sim-card-header">
+                <h3>Mô Phỏng Thanh Ghi GPIO STM32 (Bare-Metal Register Bitfield)</h3>
+                <span class="badge">Port A Pin 5 - Built-in LED</span>
+              </div>
+              <p class="sim-desc">Click vào các bit trong thanh ghi MODER (Mode Register) và ODR (Output Data Register) để quan sát sự thay đổi trạng thái chân vi điều khiển và bóng LED.</p>
+
+              <div class="gpio-sim-workbench">
+                <div class="register-block">
+                  <h4>Thanh Ghi: <code>GPIOA_MODER</code> (Địa chỉ: 0x40020000)</h4>
+                  <div class="bitfield-strip" id="moderBitfield"></div>
+                  <div class="bit-legend">
+                    Bit [11:10] (Chân PA5): <span id="moderModeText" class="highlight-text">01 (General Purpose Output Mode)</span>
+                  </div>
+                </div>
+
+                <div class="register-block">
+                  <h4>Thanh Ghi: <code>GPIOA_ODR</code> (Output Data Register - Địa chỉ: 0x40020014)</h4>
+                  <div class="bitfield-strip" id="odrBitfield"></div>
+                  <div class="bit-legend">
+                    Bit [5] (Chân PA5 Out): <span id="odrPinText" class="highlight-text">1 (HIGH - 3.3V)</span>
+                  </div>
+                </div>
+
+                <!-- Virtual Hardware Breadboard -->
+                <div class="virtual-circuit-board">
+                  <div class="mcu-chip-visual">
+                    <div class="chip-notch"></div>
+                    <span class="chip-title">STM32F401RE</span>
+                    <span class="chip-pin-label">PA5 (Pin 21) ───►</span>
+                  </div>
+                  <div class="circuit-wire"></div>
+                  <div class="resistor-visual">
+                    <span class="resistor-bands">R = 330Ω</span>
+                  </div>
+                  <div class="circuit-wire"></div>
+                  <div class="virtual-led-box">
+                    <div class="virtual-led on" id="virtualLed"></div>
+                    <span class="led-state-label" id="ledStateLabel">LED ON (SÁNG)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR 3: PID TUNING -->
+          <div class="sim-content-pane" id="sim-pid">
+            <div class="sim-card">
+              <div class="sim-card-header">
+                <h3>Mô Phỏng & Cân Chỉnh Bộ Điều Khiển PID (PID Tuning Lab)</h3>
+                <span class="badge">Closed-Loop Control</span>
+              </div>
+              <p class="sim-desc">Kéo các thanh trượt $K_p$, $K_i$, $K_d$ để quan sát đáp ứng của hệ thống điều khiển tốc độ/vị trí động cơ trong thời gian thực.</p>
+
+              <div class="sim-grid-two">
+                <div class="pid-controls">
+                  <div class="slider-control">
+                    <div class="slider-header">
+                      <label>Khâu Tỉ Lệ (Proportional - $K_p$):</label>
+                      <span class="val-display" id="valKp">2.0</span>
+                    </div>
+                    <input type="range" id="sliderKp" min="0" max="10" step="0.1" value="2.0">
+                    <small>Tăng $K_p$ giúp hệ thống phản ứng nhanh nhưng dễ gây vọt lố (Overshoot) và dao động.</small>
+                  </div>
+
+                  <div class="slider-control">
+                    <div class="slider-header">
+                      <label>Khâu Tích Phân (Integral - $K_i$):</label>
+                      <span class="val-display" id="valKi">0.5</span>
+                    </div>
+                    <input type="range" id="sliderKi" min="0" max="5" step="0.05" value="0.5">
+                    <small>Triệt tiêu sai số xác lập (Steady-state error), nhưng quá lớn sẽ gây hiện tượng tích lũy sai số (Windup).</small>
+                  </div>
+
+                  <div class="slider-control">
+                    <div class="slider-header">
+                      <label>Khâu Vi Phân (Derivative - $K_d$):</label>
+                      <span class="val-display" id="valKd">0.8</span>
+                    </div>
+                    <input type="range" id="sliderKd" min="0" max="5" step="0.05" value="0.8">
+                    <small>Dự đoán xu hướng sai số, làm dịu dao động và giảm độ vọt lố.</small>
+                  </div>
+
+                  <div class="slider-control">
+                    <div class="slider-header">
+                      <label>Giá Trị Đặt (Setpoint):</label>
+                      <span class="val-display" id="valSetpoint">100 RPM</span>
+                    </div>
+                    <input type="range" id="sliderSetpoint" min="20" max="180" step="5" value="100">
+                  </div>
+
+                  <div class="pid-stats">
+                    <div class="stat-item">Độ Vọt Lố (Overshoot): <b id="statOvershoot">0%</b></div>
+                    <div class="stat-item">Thời Gian Xác Lập: <b id="statSettling">0.0s</b></div>
+                    <div class="stat-item">Sai Số Xác Lập: <b id="statError">0.0 RPM</b></div>
+                  </div>
+                </div>
+
+                <div class="pid-canvas-container">
+                  <canvas id="pidCanvas" width="600" height="350"></canvas>
+                  <div class="canvas-legend">
+                    <span class="legend-setpoint">── Giá trị đặt (Setpoint)</span>
+                    <span class="legend-response">── Tốc độ thực tế (PV)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR 4: DIFFERENTIAL DRIVE ROBOT -->
+          <div class="sim-content-pane" id="sim-robot">
+            <div class="sim-card">
+              <div class="sim-card-header">
+                <h3>Mô Phỏng Động Học Xe Robot Bánh Vi Sai (Differential Drive Kinematics)</h3>
+                <span class="badge">Level 4: Robotics & Odometry</span>
+              </div>
+              <p class="sim-desc">Điều khiển vận tốc bánh trái ($v_L$) và bánh phải ($v_R$) để quan sát chuyển động và quỹ đạo $x, y, \theta$ của xe tự hành tính toán theo công thức vi phân.</p>
+
+              <div class="sim-grid-two">
+                <div class="robot-controls">
+                  <div class="slider-control">
+                    <div class="slider-header">
+                      <label>Vận Tốc Bánh Trái ($v_L$):</label>
+                      <span class="val-display" id="valVl">30 mm/s</span>
+                    </div>
+                    <input type="range" id="sliderVl" min="-60" max="60" step="2" value="30">
+                  </div>
+
+                  <div class="slider-control">
+                    <div class="slider-header">
+                      <label>Vận Tốc Bánh Phải ($v_R$):</label>
+                      <span class="val-display" id="valVr">35 mm/s</span>
+                    </div>
+                    <input type="range" id="sliderVr" min="-60" max="60" step="2" value="35">
+                  </div>
+
+                  <div class="btn-group-horizontal">
+                    <button class="sim-action-btn" id="btnRobotStraight">⬆️ Đi Thẳng</button>
+                    <button class="sim-action-btn" id="btnRobotTurnLeft">↰ Rẽ Trái</button>
+                    <button class="sim-action-btn" id="btnRobotTurnRight">↱ Rẽ Phải</button>
+                    <button class="sim-action-btn" id="btnRobotSpin">🔄 Xoay Tại Chỗ</button>
+                    <button class="sim-action-btn secondary" id="btnRobotStop">🛑 Dừng</button>
+                    <button class="sim-action-btn outline" id="btnRobotClear">🧹 Xóa Vết</button>
+                  </div>
+
+                  <div class="odometry-display-box">
+                    <h4>Ước Lượng Tọa Độ (Odometry State):</h4>
+                    <p>Tọa độ $X$: <b id="odomX">0.00 mm</b> | $Y$: <b id="odomY">0.00 mm</b></p>
+                    <p>Góc hướng $\theta$: <b id="odomTheta">0.0°</b></p>
+                    <p>Vận tốc dài $v$: <b id="odomLinVel">0.0 mm/s</b> | Vận tốc góc $\omega$: <b id="odomAngVel">0.0 rad/s</b></p>
+                  </div>
+                </div>
+
+                <div class="robot-canvas-container">
+                  <canvas id="robotCanvas" width="600" height="400"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR 5: SERIAL WAVEFORMS -->
+          <div class="sim-content-pane" id="sim-serial">
+            <div class="sim-card">
+              <div class="sim-card-header">
+                <h3>Bộ Phân Tích Dạng Sóng Tín Hiệu (Logic Analyzer Waveform Viewer)</h3>
+                <span class="badge">UART / SPI / I2C</span>
+              </div>
+              <p class="sim-desc">Khám phá cách dữ liệu được mã hóa thành các mức điện áp logic trên đường truyền nối tiếp.</p>
+
+              <div class="waveform-toolbar">
+                <label>Giao thức:</label>
+                <select id="protocolSelect">
+                  <option value="uart">UART (8-N-1, Baud 9600, Truyền ký tự 'A' = 0x41)</option>
+                  <option value="spi_mode0">SPI Mode 0 (CPOL=0, CPHA=0, Byte 0x93)</option>
+                  <option value="spi_mode3">SPI Mode 3 (CPOL=1, CPHA=1, Byte 0x93)</option>
+                  <option value="i2c">I2C (Địa chỉ 0x3C, Ghi byte 0x55, kèm bit ACK)</option>
+                </select>
+              </div>
+
+              <div class="waveform-canvas-box">
+                <canvas id="waveformCanvas" width="800" height="260"></canvas>
+              </div>
+
+              <div class="waveform-explanation" id="waveformExplanation">
+                <!-- Explanation rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: ROADMAP GRAPH -->
+      <section class="tab-pane" id="pane-roadmap">
+        <div class="roadmap-page-container">
+          <div class="roadmap-header">
+            <h1>🗺️ BẢN ĐỒ LỘ TRÌNH KỸ SƯ EMBEDDED & ROBOTICS</h1>
+            <p>Hệ thống phân cấp kỹ năng từng bước để xây dựng tư duy từ phần cứng vật lý đến robot tự hành thông minh.</p>
+          </div>
+          <div class="roadmap-visual-grid" id="roadmapVisualGrid">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: PROCESS LOG VIEWER -->
+      <section class="tab-pane" id="pane-process">
+        <div class="process-page-container">
+          <div class="process-header">
+            <div class="process-title-group">
+              <h1>📝 NHẬT KÝ TIẾN TRÌNH & COMMIT (PROCESS.MD)</h1>
+              <p>Hệ thống kiểm soát chất lượng và lưu vết toàn bộ tiến độ làm việc theo quy chuẩn kỹ thuật chuyên nghiệp.</p>
+            </div>
+            <a href="./process.md" target="_blank" class="open-file-btn">📄 Mở file process.md gốc</a>
+          </div>
+
+          <div class="process-timeline" id="processTimeline">
+            <!-- Timeline items rendered dynamically -->
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="data/curriculum.js"></script>
+  <script src="data/simulators.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
