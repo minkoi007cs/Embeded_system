@@ -70,7 +70,7 @@ Khi thực hiện commit mới, hãy sao chép mẫu dưới đây và điền �
 
 ---
 
-### [2026-09-22] - Commit: `feat(app): Hoàn thiện nền tảng Web Learning Hub và toàn bộ khóa học Level 0 tới Level 6`
+### [2026-09-22] - Commit: `f77fa83` - `feat(app): Hoàn thiện nền tảng Web Learning Hub và toàn bộ khóa học Level 0 tới Level 6`
 
 - **🎯 Mục tiêu của commit**:
   - Xây dựng ứng dụng Web tương tác hoàn chỉnh (Single Page Application) phục vụ tự học Hệ thống Nhúng & Robotics từ Level 0 đến Level 6.

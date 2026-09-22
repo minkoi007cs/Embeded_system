@@ -505,6 +505,12 @@ class AppController {
     const entries = [
       {
         date: "2026-09-22",
+        commit: "f77fa83",
+        title: "feat(app): Hoàn thiện nền tảng Web Learning Hub và toàn bộ khóa học Level 0 tới Level 6",
+        details: "Xây dựng Single Page App với 5 mô phỏng tương tác, Đấu trường Quiz, hoàn thiện bài học từ Level 0 đến Level 6."
+      },
+      {
+        date: "2026-09-22",
         commit: "ec45ff4",
         title: "docs(process): Cập nhật hash commit thực tế cho phiên bản khởi tạo",
         details: "Đồng bộ hóa mã băm (Commit hash) chuẩn của Git vào tài liệu kỹ thuật process.md."
