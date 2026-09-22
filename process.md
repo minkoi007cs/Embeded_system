@@ -123,7 +123,7 @@ Khi thực hiện commit mới, hãy sao chép mẫu dưới đây và điền �
 
 ---
 
-### [2026-09-22] - Commit: `feat(i18n): Tích hợp bộ chuyển đổi giao diện Sáng/Tối và hỗ trợ song ngữ Anh - Việt`
+### [2026-09-22] - Commit: `685cae9` - `feat(i18n): Tích hợp bộ chuyển đổi giao diện Sáng/Tối và hỗ trợ song ngữ Anh - Việt`
 
 - **🎯 Mục tiêu của commit**:
   - Bổ sung nút chuyển đổi chế độ giao diện Sáng / Tối (Dark / Light Theme) với trạng thái lưu trữ bền vững trong `localStorage`.

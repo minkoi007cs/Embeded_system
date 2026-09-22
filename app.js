@@ -656,6 +656,12 @@ class AppController {
     const entries = [
       {
         date: "2026-09-22",
+        commit: "685cae9",
+        title: "feat(i18n): Tích hợp bộ chuyển đổi giao diện Sáng/Tối và hỗ trợ song ngữ Anh - Việt",
+        details: "Bổ sung nút chuyển đổi chế độ Sáng/Tối và song ngữ VI/EN toàn diện cho giao diện, thanh sidebar, bài học và roadmap."
+      },
+      {
+        date: "2026-09-22",
         commit: "72ff268",
         title: "chore(deploy): Cấu hình vercel.json tối ưu hóa định tuyến và bảo mật triển khai Vercel",
         details: "Chuẩn hóa Clean URLs, Cache-Control và các Header an ninh phục vụ đưa ứng dụng lên Vercel Production."
