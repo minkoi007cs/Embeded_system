@@ -48,7 +48,7 @@ Khi thực hiện commit mới, hãy sao chép mẫu dưới đây và điền �
 
 ---
 
-### [2026-09-22] - Commit: `init-arch` - `docs(core): Thiết lập kiến trúc kỹ thuật tech.md và chuẩn hóa quy trình process.md`
+### [2026-09-22] - Commit: `1697dbf` - `docs(core): Thiết lập kiến trúc kỹ thuật tech.md và chuẩn hóa quy trình process.md`
 
 - **🎯 Mục tiêu của commit**:
   - Xây dựng bộ khung xương sống cho toàn bộ dự án tự học Hệ thống Nhúng & Robotics.
