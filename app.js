@@ -1,5 +1,6 @@
 /**
  * EMBEDDED SYSTEMS & ROBOTICS HUB - APPLICATION CONTROLLER
+ * Full i18n (VI/EN) & Theme (Dark/Light) Management
  */
 
 class AppController {
@@ -8,9 +9,13 @@ class AppController {
     this.currentLevel = this.curriculum[0];
     this.currentLesson = this.currentLevel.lessons[0];
 
+    // Ngôn ngữ mặc định (lấy từ localStorage hoặc 'vi')
+    this.currentLang = localStorage.getItem("embed_lang") || "vi";
+
     // Load progress from localStorage
     this.loadState();
 
+    this.initLanguage();
     this.initTheme();
     this.bindGlobalEvents();
     this.renderSidebar();
@@ -27,6 +32,155 @@ class AppController {
     Simulators.waveform.init();
   }
 
+  // =========================================================================
+  // I18N HELPER METHODS
+  // =========================================================================
+  t(key) {
+    if (I18N_DATA[this.currentLang] && I18N_DATA[this.currentLang][key]) {
+      return I18N_DATA[this.currentLang][key];
+    }
+    return key;
+  }
+
+  getLevelTitle(level) {
+    const dict = I18N_DATA[this.currentLang]?.levels?.[level.id];
+    return dict ? dict.title : level.title;
+  }
+
+  getLevelShortTitle(level) {
+    const dict = I18N_DATA[this.currentLang]?.levels?.[level.id];
+    return dict ? dict.shortTitle : level.shortTitle;
+  }
+
+  getLevelDesc(level) {
+    const dict = I18N_DATA[this.currentLang]?.levels?.[level.id];
+    return dict ? dict.desc : level.description;
+  }
+
+  getLessonTitle(lesson) {
+    const dict = I18N_DATA[this.currentLang]?.lessons?.[lesson.id];
+    return dict ? dict.title : lesson.title;
+  }
+
+  getLessonSummary(lesson) {
+    const dict = I18N_DATA[this.currentLang]?.lessons?.[lesson.id];
+    return dict ? dict.summary : lesson.summary;
+  }
+
+  initLanguage() {
+    this.applyLanguageTexts();
+    this.updateLanguageButton();
+
+    document.getElementById("langToggle")?.addEventListener("click", () => {
+      const nextLang = this.currentLang === "vi" ? "en" : "vi";
+      this.setLanguage(nextLang);
+    });
+  }
+
+  setLanguage(lang) {
+    this.currentLang = lang;
+    localStorage.setItem("embed_lang", lang);
+
+    this.applyLanguageTexts();
+    this.updateLanguageButton();
+    this.updateThemeButton();
+    this.renderSidebar();
+    this.renderActiveLesson();
+    this.renderRoadmap();
+    this.renderProcessTimeline();
+    if (document.getElementById("pane-quiz")?.classList.contains("active")) {
+      this.renderQuizArena(document.getElementById("quizLevelFilter")?.value || "all");
+    }
+  }
+
+  applyLanguageTexts() {
+    document.documentElement.lang = this.currentLang;
+
+    // Cập nhật tất cả phần tử có data-i18n
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      const translation = this.t(key);
+      if (translation) el.textContent = translation;
+    });
+
+    // Cập nhật placeholder
+    document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+      const key = el.getAttribute("data-i18n-ph");
+      const translation = this.t(key);
+      if (translation) el.placeholder = translation;
+    });
+  }
+
+  updateLanguageButton() {
+    const flagEl = document.getElementById("langFlag");
+    const textEl = document.getElementById("langText");
+    const btn = document.getElementById("langToggle");
+
+    if (this.currentLang === "vi") {
+      if (flagEl) flagEl.textContent = "🇻🇳";
+      if (textEl) textEl.textContent = "VI";
+      if (btn) btn.title = "Chuyển sang Tiếng Anh (Switch to English)";
+    } else {
+      if (flagEl) flagEl.textContent = "🇬🇧";
+      if (textEl) textEl.textContent = "EN";
+      if (btn) btn.title = "Chuyển sang Tiếng Việt (Switch to Vietnamese)";
+    }
+  }
+
+  // =========================================================================
+  // THEME (DARK / LIGHT) MANAGEMENT
+  // =========================================================================
+  initTheme() {
+    const savedTheme = localStorage.getItem("embed_theme") || "dark";
+    if (savedTheme === "light") {
+      document.body.classList.remove("dark-theme");
+      document.body.classList.add("light-theme");
+    } else {
+      document.body.classList.remove("light-theme");
+      document.body.classList.add("dark-theme");
+    }
+
+    this.updateThemeButton();
+
+    document.getElementById("themeToggle")?.addEventListener("click", () => {
+      const isLightNow = document.body.classList.contains("light-theme");
+      if (isLightNow) {
+        document.body.classList.remove("light-theme");
+        document.body.classList.add("dark-theme");
+        localStorage.setItem("embed_theme", "dark");
+      } else {
+        document.body.classList.remove("dark-theme");
+        document.body.classList.add("light-theme");
+        localStorage.setItem("embed_theme", "light");
+      }
+      this.updateThemeButton();
+
+      // Redraw simulators with updated palette
+      Simulators.pid?.simulate();
+      Simulators.waveform?.render();
+    });
+  }
+
+  updateThemeButton() {
+    const isLight = document.body.classList.contains("light-theme");
+    const iconEl = document.getElementById("themeIcon");
+    const textEl = document.getElementById("themeText");
+    const btn = document.getElementById("themeToggle");
+
+    if (isLight) {
+      if (iconEl) iconEl.textContent = "☀️";
+      if (textEl) textEl.textContent = this.t("themeLight");
+      if (btn) btn.title = this.currentLang === "vi" ? "Chuyển sang giao diện Tối" : "Switch to Dark theme";
+    } else {
+      if (iconEl) iconEl.textContent = "🌙";
+      if (textEl) textEl.textContent = this.t("themeDark");
+      if (btn) btn.title = this.currentLang === "vi" ? "Chuyển sang giao diện Sáng" : "Switch to Light theme";
+    }
+  }
+
+  // =========================================================================
+  // STATE PERSISTENCE
+  // =========================================================================
   loadState() {
     const saved = localStorage.getItem("embed_robotics_progress");
     if (saved) {
@@ -52,20 +206,9 @@ class AppController {
     this.updateProgressStats();
   }
 
-  initTheme() {
-    const isLight = localStorage.getItem("embed_theme") === "light";
-    if (isLight) {
-      document.body.classList.remove("dark-theme");
-      document.body.classList.add("light-theme");
-    }
-    document.getElementById("themeToggle")?.addEventListener("click", () => {
-      document.body.classList.toggle("light-theme");
-      document.body.classList.toggle("dark-theme");
-      const lightActive = document.body.classList.contains("light-theme");
-      localStorage.setItem("embed_theme", lightActive ? "light" : "dark");
-    });
-  }
-
+  // =========================================================================
+  // GLOBAL EVENT LISTENERS
+  // =========================================================================
   bindGlobalEvents() {
     // Navigation Tabs
     const navButtons = document.querySelectorAll(".nav-btn");
@@ -82,7 +225,6 @@ class AppController {
         if (targetTab === "quiz") {
           this.renderQuizArena();
         } else if (targetTab === "simulators") {
-          // Trigger redraw of active simulator
           Simulators.pid.simulate();
           Simulators.waveform.render();
         }
@@ -139,7 +281,7 @@ class AppController {
     });
 
     document.getElementById("btnResetQuizProgress")?.addEventListener("click", () => {
-      if (confirm("Bạn có chắc chắn muốn đặt lại toàn bộ kết quả trắc nghiệm?")) {
+      if (confirm(this.t("confirmResetQuiz"))) {
         this.quizAnswers = {};
         this.saveState();
         this.renderQuizArena();
@@ -149,7 +291,7 @@ class AppController {
   }
 
   // =========================================================================
-  // SIDEBAR RENDERING
+  // SIDEBAR RENDERING (MULTILINGUAL)
   // =========================================================================
   renderSidebar() {
     const list = document.getElementById("levelAccordionList");
@@ -169,7 +311,8 @@ class AppController {
       level.lessons.forEach(l => {
         if (this.completedLessons.has(l.id)) doneCount++;
       });
-      const pct = Math.round((doneCount / level.lessons.length) * 100);
+
+      const levelShortTitle = this.getLevelShortTitle(level);
 
       // Header button
       const headerBtn = document.createElement("button");
@@ -177,7 +320,7 @@ class AppController {
       headerBtn.innerHTML = `
         <div class="level-header-left">
           <span class="level-badge" style="background: ${level.badgeColor}22; color: ${level.badgeColor}; border: 1px solid ${level.badgeColor}44;">L${level.number}</span>
-          <span>${level.shortTitle}</span>
+          <span>${levelShortTitle}</span>
         </div>
         <span class="level-progress-ring">${doneCount}/${level.lessons.length}</span>
       `;
@@ -194,10 +337,11 @@ class AppController {
         const itemBtn = document.createElement("button");
         itemBtn.className = `lesson-item-btn ${lesson.id === this.currentLesson.id ? 'active' : ''}`;
         const isDone = this.completedLessons.has(lesson.id);
+        const lessonTitle = this.getLessonTitle(lesson);
 
         itemBtn.innerHTML = `
           <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 230px;">
-            ${lesson.title}
+            ${lessonTitle}
           </span>
           <span class="lesson-status-icon">${isDone ? '✅' : '⚪'}</span>
         `;
@@ -208,7 +352,6 @@ class AppController {
           this.renderSidebar();
           this.renderActiveLesson();
 
-          // Tự động chuyển về tab curriculum nếu đang ở tab khác
           document.querySelector('.nav-btn[data-tab="curriculum"]')?.click();
           window.scrollTo({ top: 0, behavior: "smooth" });
         });
@@ -236,27 +379,28 @@ class AppController {
   }
 
   // =========================================================================
-  // LESSON CONTENT RENDERING
+  // LESSON CONTENT RENDERING (MULTILINGUAL)
   // =========================================================================
   renderActiveLesson() {
     if (!this.currentLesson) return;
 
-    // Header info
-    document.getElementById("lessonLevelTag").textContent = this.currentLevel.title;
+    const levelTitle = this.getLevelTitle(this.currentLevel);
+    const lessonTitle = this.getLessonTitle(this.currentLesson);
+    const lessonDesc = this.getLessonSummary(this.currentLesson);
+
+    document.getElementById("lessonLevelTag").textContent = levelTitle;
     document.getElementById("lessonDurationTag").textContent = `⏱️ ${this.currentLesson.duration}`;
     document.getElementById("lessonDifficultyTag").textContent = this.currentLesson.difficulty;
-    document.getElementById("lessonTitle").textContent = this.currentLesson.title;
-    document.getElementById("lessonDesc").textContent = this.currentLesson.summary;
+    document.getElementById("lessonTitle").textContent = lessonTitle;
+    document.getElementById("lessonDesc").textContent = lessonDesc;
 
     this.updateCompletedButton();
 
-    // Render markdown content
     const bodyBox = document.getElementById("lessonBodyMarkdown");
     if (bodyBox) {
       bodyBox.innerHTML = this.parseMarkdown(this.currentLesson.content);
     }
 
-    // Render Quizzes
     this.renderEmbeddedQuizzes();
   }
 
@@ -268,11 +412,11 @@ class AppController {
 
     if (isDone) {
       if (icon) icon.textContent = "✅";
-      if (text) text.textContent = "Đã hoàn thành bài học này";
+      if (text) text.textContent = this.t("completed");
       btn?.classList.remove("secondary");
     } else {
       if (icon) icon.textContent = "⚪";
-      if (text) text.textContent = "Đánh dấu đã hoàn thành";
+      if (text) text.textContent = this.t("markCompleted");
       btn?.classList.add("secondary");
     }
   }
@@ -326,7 +470,7 @@ class AppController {
     if (!container) return;
 
     const quizzes = this.currentLesson.quizzes || [];
-    if (countBadge) countBadge.textContent = `${quizzes.length} câu hỏi`;
+    if (countBadge) countBadge.textContent = `${quizzes.length} ${this.t("quizCountSuffix")}`;
 
     container.innerHTML = "";
 
@@ -346,11 +490,13 @@ class AppController {
     card.className = "quiz-card";
 
     const savedAnswer = this.quizAnswers[quiz.id];
+    const qNumText = this.currentLang === "vi" ? `CÂU HỎI ${number}` : `QUESTION ${number}`;
+    const levelShort = this.getLevelShortTitle(this.currentLevel);
 
     card.innerHTML = `
       <div class="quiz-header">
-        <span class="quiz-q-num">CÂU HỎI ${number}</span>
-        <span class="quiz-category-tag">${this.currentLevel.shortTitle}</span>
+        <span class="quiz-q-num">${qNumText}</span>
+        <span class="quiz-category-tag">${levelShort}</span>
       </div>
       <div class="quiz-question-text">${quiz.question}</div>
       <div class="quiz-options-group" id="opts-${quiz.id}">
@@ -371,7 +517,7 @@ class AppController {
         }).join('')}
       </div>
       <div class="quiz-explanation-box ${savedAnswer !== undefined ? 'show' : ''}" id="expl-${quiz.id}">
-        <strong>👉 Giải Thích Chi Tiết:</strong><br>
+        <strong>${this.t("seeExplanation")}:</strong><br>
         ${quiz.explanation}
       </div>
     `;
@@ -380,7 +526,7 @@ class AppController {
     const optButtons = card.querySelectorAll(".quiz-option-btn");
     optButtons.forEach(btn => {
       btn.addEventListener("click", () => {
-        if (this.quizAnswers[quiz.id] !== undefined) return; // Đã trả lời rồi
+        if (this.quizAnswers[quiz.id] !== undefined) return;
 
         const chosenIndex = parseInt(btn.getAttribute("data-opt"));
         const isCorrect = (chosenIndex === quiz.correct);
@@ -391,14 +537,12 @@ class AppController {
         };
         this.saveState();
 
-        // Cập nhật giao diện nút
         optButtons.forEach((b, idx) => {
           b.classList.add("locked");
           if (idx === quiz.correct) b.classList.add("selected-correct");
           else if (idx === chosenIndex && !isCorrect) b.classList.add("selected-wrong");
         });
 
-        // Mở box giải thích
         card.querySelector(".quiz-explanation-box")?.classList.add("show");
       });
     });
@@ -452,7 +596,7 @@ class AppController {
   }
 
   // =========================================================================
-  // ROADMAP GRID
+  // ROADMAP GRID (MULTILINGUAL)
   // =========================================================================
   renderRoadmap() {
     const grid = document.getElementById("roadmapVisualGrid");
@@ -465,6 +609,10 @@ class AppController {
       level.lessons.forEach(l => { if (this.completedLessons.has(l.id)) done++; });
       const pct = Math.round((done / level.lessons.length) * 100);
 
+      const levelTitle = this.getLevelTitle(level);
+      const levelDesc = this.getLevelDesc(level);
+      const completedText = this.currentLang === "vi" ? "Hoàn Thành" : "Completed";
+
       const card = document.createElement("div");
       card.className = "roadmap-stage-card";
       card.innerHTML = `
@@ -473,13 +621,16 @@ class AppController {
             LEVEL ${level.number}
           </span>
           <span style="font-size: 13px; font-weight: 700; color: ${pct === 100 ? 'var(--accent-green)' : 'var(--text-muted)'}">
-            ${pct}% Hoàn Thành (${done}/${level.lessons.length})
+            ${pct}% ${completedText} (${done}/${level.lessons.length})
           </span>
         </div>
-        <h2 class="stage-card-title">${level.title}</h2>
-        <p class="stage-card-desc">${level.description}</p>
+        <h2 class="stage-card-title">${levelTitle}</h2>
+        <p class="stage-card-desc">${levelDesc}</p>
         <div class="stage-topics-tags">
-          ${level.lessons.map(l => `<span class="topic-tag">${this.completedLessons.has(l.id) ? '✅' : '⚪'} ${l.title}</span>`).join('')}
+          ${level.lessons.map(l => {
+            const lessonTitle = this.getLessonTitle(l);
+            return `<span class="topic-tag">${this.completedLessons.has(l.id) ? '✅' : '⚪'} ${lessonTitle}</span>`;
+          }).join('')}
         </div>
       `;
 
@@ -496,13 +647,19 @@ class AppController {
   }
 
   // =========================================================================
-  // PROCESS LOG VIEWER (REAL LOG FROM PROCESS.MD)
+  // PROCESS LOG VIEWER
   // =========================================================================
   renderProcessTimeline() {
     const timeline = document.getElementById("processTimeline");
     if (!timeline) return;
 
     const entries = [
+      {
+        date: "2026-09-22",
+        commit: "72ff268",
+        title: "chore(deploy): Cấu hình vercel.json tối ưu hóa định tuyến và bảo mật triển khai Vercel",
+        details: "Chuẩn hóa Clean URLs, Cache-Control và các Header an ninh phục vụ đưa ứng dụng lên Vercel Production."
+      },
       {
         date: "2026-09-22",
         commit: "f77fa83",

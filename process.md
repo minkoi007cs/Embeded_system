@@ -119,5 +119,24 @@ Khi thực hiện commit mới, hãy sao chép mẫu dưới đây và điền �
 - **💡 Khó khăn, Lỗi gặp phải & Lưu ý kỹ thuật (Gotchas)**:
   - Ứng dụng là dạng Vanilla Single Page Application, không yêu cầu build step nên Vercel nhận diện và triển khai tức thì trong vài giây (Zero-configuration deployment).
 - **🚀 Kế hoạch cho commit tiếp theo**:
-  - Đẩy commit lên GitHub và hướng dẫn người dùng kết nối Vercel chỉ với 1 click.
+  - Tích hợp bộ chuyển đổi giao diện Sáng/Tối và song ngữ Anh - Việt theo yêu cầu người dùng.
+
+---
+
+### [2026-09-22] - Commit: `feat(i18n): Tích hợp bộ chuyển đổi giao diện Sáng/Tối và hỗ trợ song ngữ Anh - Việt`
+
+- **🎯 Mục tiêu của commit**:
+  - Bổ sung nút chuyển đổi chế độ giao diện Sáng / Tối (Dark / Light Theme) với trạng thái lưu trữ bền vững trong `localStorage`.
+  - Bổ sung nút chuyển đổi song ngữ Tiếng Việt 🇻🇳 và Tiếng Anh 🇬🇧 (i18n) cho toàn bộ tiêu đề, điều hướng, mô phỏng và bài giảng.
+- **📝 Chi tiết thay đổi**:
+  - `data/i18n.js`: Tạo mới từ điển đa ngôn ngữ hoàn chỉnh (VI & EN) cho cả giao diện ứng dụng, các Cấp độ (Level 0 - 6) và từng Bài học.
+  - `index.html`: Bổ sung 2 nút điều khiển `langToggle` và `themeToggle` trên thanh Header; gắn các thuộc tính `data-i18n` và `data-i18n-ph`.
+  - `app.css`: Định kiểu dáng hiện đại cho `.header-ctrl-btn`, `.lang-btn`, `.theme-btn` với hiệu ứng viền phát sáng, căn chỉnh độ tương phản cho Light Theme.
+  - `app.js`: Tích hợp các hàm `initLanguage()`, `setLanguage()`, `initTheme()`, dịch tự động nội dung và cập nhật biểu tượng động.
+- **🗺️ Tiến độ trên Roadmap (`tech.md`)**:
+  - [x] Tối ưu hóa trải nghiệm người dùng toàn diện (UI/UX Internationalization & Theme Switcher).
+- **💡 Khó khăn, Lỗi gặp phải & Lưu ý kỹ thuật (Gotchas)**:
+  - Khi đổi ngôn ngữ, cần kích hoạt render lại cả thanh Sidebar, thẻ bài học đang mở, và lưới Roadmap để đồng bộ ngay lập tức mà không cần reload trang.
+- **🚀 Kế hoạch cho commit tiếp theo**:
+  - Tiếp tục lắng nghe phản hồi của người dùng để bổ sung các chuyên đề hoặc tính năng mô phỏng mới.
 

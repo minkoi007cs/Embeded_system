@@ -16,47 +16,59 @@
       <div class="logo-box">
         <div class="logo-icon">⚡🤖</div>
         <div class="logo-text">
-          <h1>EMBEDDED & ROBOTICS</h1>
-          <span class="subtext">Full Course & Interactive Engineering Hub</span>
+          <h1 data-i18n="appTitle">EMBEDDED & ROBOTICS</h1>
+          <span class="subtext" data-i18n="subTitle">Khóa học toàn diện & Hub kỹ thuật tương tác</span>
         </div>
       </div>
-      <div class="header-badge">Level 0 ➔ Level 6</div>
+      <div class="header-badge" data-i18n="levelBadge">Level 0 ➔ Level 6</div>
     </div>
 
     <!-- Navigation Tabs -->
     <nav class="app-nav">
       <button class="nav-btn active" data-tab="curriculum">
         <span class="btn-icon">📚</span>
-        <span class="btn-label">Bài Giảng (Courses)</span>
+        <span class="btn-label" data-i18n="navCourses">Bài Giảng</span>
       </button>
       <button class="nav-btn" data-tab="quiz">
         <span class="btn-icon">🧩</span>
-        <span class="btn-label">Đấu Trường Quiz</span>
+        <span class="btn-label" data-i18n="navQuiz">Đấu Trường Quiz</span>
       </button>
       <button class="nav-btn" data-tab="simulators">
         <span class="btn-icon">🔬</span>
-        <span class="btn-label">Mô Phỏng Thực Tế</span>
+        <span class="btn-label" data-i18n="navSims">Mô Phỏng</span>
       </button>
       <button class="nav-btn" data-tab="roadmap">
         <span class="btn-icon">🗺️</span>
-        <span class="btn-label">Bản Đồ Lộ Trình</span>
+        <span class="btn-label" data-i18n="navRoadmap">Lộ Trình</span>
       </button>
       <button class="nav-btn" data-tab="process">
         <span class="btn-icon">📝</span>
-        <span class="btn-label">Nhật Ký Commit</span>
+        <span class="btn-label" data-i18n="navProcess">Nhật Ký Commit</span>
       </button>
     </nav>
 
-    <!-- Header Stats & Theme Toggle -->
+    <!-- Header Stats & Interactive Controls -->
     <div class="header-right">
+      <!-- Language Toggle Button (VI / EN) -->
+      <button class="header-ctrl-btn lang-btn" id="langToggle" title="Chuyển đổi Ngôn ngữ (VI / EN)">
+        <span class="ctrl-flag" id="langFlag">🇻🇳</span>
+        <span class="ctrl-label" id="langText">VI</span>
+      </button>
+
+      <!-- Theme Toggle Button (Light / Dark) -->
+      <button class="header-ctrl-btn theme-btn" id="themeToggle" title="Đổi giao diện Sáng / Tối">
+        <span class="ctrl-icon" id="themeIcon">🌙</span>
+        <span class="ctrl-label" id="themeText">Tối</span>
+      </button>
+
+      <!-- Progress Pill -->
       <div class="progress-pill">
-        <span class="progress-label">Tiến Độ:</span>
+        <span class="progress-label" data-i18n="progressLabel">Tiến Độ:</span>
         <div class="progress-bar-mini">
           <div class="progress-fill" id="headerProgressFill" style="width: 0%"></div>
         </div>
         <span class="progress-num" id="headerProgressText">0%</span>
       </div>
-      <button class="icon-btn" id="themeToggle" title="Đổi giao diện sáng/tối">🌓</button>
     </div>
   </header>
 
@@ -65,9 +77,9 @@
     <!-- Sidebar: Level & Topic Selector -->
     <aside class="app-sidebar" id="appSidebar">
       <div class="sidebar-header">
-        <h2>LỘ TRÌNH 6 CẤP ĐỘ</h2>
+        <h2 data-i18n="sidebarHeading">LỘ TRÌNH 6 CẤP ĐỘ</h2>
         <div class="search-box">
-          <input type="text" id="lessonSearch" placeholder="🔍 Tìm kiếm bài học, từ khóa...">
+          <input type="text" id="lessonSearch" data-i18n-ph="searchPlaceholder" placeholder="🔍 Tìm kiếm bài học, từ khóa...">
         </div>
       </div>
 
@@ -95,13 +107,13 @@
           <!-- Lesson Action Toolbar -->
           <div class="lesson-toolbar">
             <button class="action-btn" id="btnToggleCompleted">
-              <span id="completedBtnIcon">⚪</span> <span id="completedBtnText">Đánh dấu đã hoàn thành</span>
+              <span id="completedBtnIcon">⚪</span> <span id="completedBtnText" data-i18n="markCompleted">Đánh dấu đã hoàn thành</span>
             </button>
             <button class="action-btn secondary" id="btnJumpToQuiz">
-              <span>🎯 Làm Quiz bài này</span>
+              <span data-i18n="jumpToQuiz">🎯 Làm Quiz bài này</span>
             </button>
             <button class="action-btn secondary" id="btnOpenSim">
-              <span>🔬 Mở phòng mô phỏng liên quan</span>
+              <span data-i18n="openSim">🔬 Mở phòng mô phỏng</span>
             </button>
           </div>
 
@@ -113,7 +125,7 @@
           <!-- Embedded Quiz for Active Lesson -->
           <div class="embedded-quiz-section" id="embeddedQuizSection">
             <div class="section-title-bar">
-              <h2>🎯 BÀI TẬP TRẮC NGHIỆM CỦNG CỐ KIẾN THỨC</h2>
+              <h2 data-i18n="quizSectionTitle">🎯 BÀI TẬP TRẮC NGHIỆM CỦNG CỐ KIẾN THỨC</h2>
               <span class="quiz-count-badge" id="quizCountBadge">3 câu hỏi</span>
             </div>
             <div class="quiz-cards-list" id="embeddedQuizList">
@@ -128,11 +140,11 @@
         <div class="quiz-arena-container">
           <div class="arena-header">
             <div class="arena-title-group">
-              <h1>🧩 ĐẤU TRƯỜNG QUIZ EMBEDDED & ROBOTICS</h1>
-              <p>Thử thách tư duy phân tích mạch, trace lỗi bộ nhớ C/C++, chẩn đoán xung truyền thông và điều khiển robot.</p>
+              <h1 data-i18n="arenaTitle">🧩 ĐẤU TRƯỜNG QUIZ EMBEDDED & ROBOTICS</h1>
+              <p data-i18n="arenaDesc">Thử thách tư duy phân tích mạch, trace lỗi bộ nhớ C/C++, chẩn đoán xung truyền thông và điều khiển robot.</p>
             </div>
             <div class="arena-filters">
-              <label for="quizLevelFilter">Lọc theo Level:</label>
+              <label for="quizLevelFilter" data-i18n="filterLevel">Lọc theo Level:</label>
               <select id="quizLevelFilter">
                 <option value="all">Tất cả các Level</option>
                 <option value="0">Level 0: Nền tảng Toán & CS</option>
@@ -150,18 +162,18 @@
           <div class="quiz-score-cards">
             <div class="score-card">
               <span class="score-num" id="totalQuizAnswered">0</span>
-              <span class="score-label">Câu đã trả lời</span>
+              <span class="score-label" data-i18n="quizAnswered">Câu đã trả lời</span>
             </div>
             <div class="score-card">
               <span class="score-num text-success" id="totalQuizCorrect">0</span>
-              <span class="score-label">Trả lời chính xác</span>
+              <span class="score-label" data-i18n="quizCorrect">Trả lời chính xác</span>
             </div>
             <div class="score-card">
               <span class="score-num text-primary" id="totalQuizAccuracy">0%</span>
-              <span class="score-label">Tỷ lệ chính xác</span>
+              <span class="score-label" data-i18n="quizAccuracy">Tỷ lệ chính xác</span>
             </div>
             <div class="score-card">
-              <button class="reset-quiz-btn" id="btnResetQuizProgress">🔄 Làm lại từ đầu</button>
+              <button class="reset-quiz-btn" id="btnResetQuizProgress" data-i18n="resetQuiz">🔄 Làm lại từ đầu</button>
             </div>
           </div>
 
@@ -176,16 +188,16 @@
       <section class="tab-pane" id="pane-simulators">
         <div class="simulators-container">
           <div class="sim-header">
-            <h1>🔬 PHÒNG THÍ NGHIỆM & MÔ PHỎNG TƯƠNG TÁC TRỰC QUAN</h1>
-            <p>Học bằng cách trải nghiệm: Tương tác trực tiếp với bộ nhớ, thanh ghi vi điều khiển, cân chỉnh bộ điều khiển PID và chuyển động robot.</p>
+            <h1 data-i18n="simTitle">🔬 PHÒNG THÍ NGHIỆM & MÔ PHỎNG TƯƠNG TÁC TRỰC QUAN</h1>
+            <p data-i18n="simDesc">Học bằng cách trải nghiệm: Tương tác trực tiếp với bộ nhớ, thanh ghi vi điều khiển, cân chỉnh bộ điều khiển PID và chuyển động robot.</p>
           </div>
 
           <div class="sim-tabs">
-            <button class="sim-tab-btn active" data-sim="memory">1. Bộ Nhớ C (Memory Map)</button>
-            <button class="sim-tab-btn" data-sim="gpio">2. Thanh Ghi GPIO & LED</button>
-            <button class="sim-tab-btn" data-sim="pid">3. Bộ Điều Khiển PID</button>
-            <button class="sim-tab-btn" data-sim="robot">4. Động Học Xe Robot Vi Sai</button>
-            <button class="sim-tab-btn" data-sim="serial">5. Giản Đồ Xung UART/SPI/I2C</button>
+            <button class="sim-tab-btn active" data-sim="memory" data-i18n="simTabMemory">1. Bộ Nhớ C (Memory Map)</button>
+            <button class="sim-tab-btn" data-sim="gpio" data-i18n="simTabGpio">2. Thanh Ghi GPIO & LED</button>
+            <button class="sim-tab-btn" data-sim="pid" data-i18n="simTabPid">3. Bộ Điều Khiển PID</button>
+            <button class="sim-tab-btn" data-sim="robot" data-i18n="simTabRobot">4. Động Học Xe Robot Vi Sai</button>
+            <button class="sim-tab-btn" data-sim="serial" data-i18n="simTabSerial">5. Giản Đồ Xung UART/SPI/I2C</button>
           </div>
 
           <!-- SIMULATOR 1: MEMORY LAYOUT -->
@@ -417,8 +429,8 @@
       <section class="tab-pane" id="pane-roadmap">
         <div class="roadmap-page-container">
           <div class="roadmap-header">
-            <h1>🗺️ BẢN ĐỒ LỘ TRÌNH KỸ SƯ EMBEDDED & ROBOTICS</h1>
-            <p>Hệ thống phân cấp kỹ năng từng bước để xây dựng tư duy từ phần cứng vật lý đến robot tự hành thông minh.</p>
+            <h1 data-i18n="roadmapTitle">🗺️ BẢN ĐỒ LỘ TRÌNH KỸ SƯ EMBEDDED & ROBOTICS</h1>
+            <p data-i18n="roadmapDesc">Hệ thống phân cấp kỹ năng từng bước để xây dựng tư duy từ phần cứng vật lý đến robot tự hành thông minh.</p>
           </div>
           <div class="roadmap-visual-grid" id="roadmapVisualGrid">
             <!-- Rendered dynamically -->
@@ -431,10 +443,10 @@
         <div class="process-page-container">
           <div class="process-header">
             <div class="process-title-group">
-              <h1>📝 NHẬT KÝ TIẾN TRÌNH & COMMIT (PROCESS.MD)</h1>
-              <p>Hệ thống kiểm soát chất lượng và lưu vết toàn bộ tiến độ làm việc theo quy chuẩn kỹ thuật chuyên nghiệp.</p>
+              <h1 data-i18n="processTitle">📝 NHẬT KÝ TIẾN TRÌNH & COMMIT (PROCESS.MD)</h1>
+              <p data-i18n="processDesc">Hệ thống kiểm soát chất lượng và lưu vết toàn bộ tiến độ làm việc theo quy chuẩn kỹ thuật chuyên nghiệp.</p>
             </div>
-            <a href="./process.md" target="_blank" class="open-file-btn">📄 Mở file process.md gốc</a>
+            <a href="./process.md" target="_blank" class="open-file-btn" data-i18n="openRawProcess">📄 Mở file process.md gốc</a>
           </div>
 
           <div class="process-timeline" id="processTimeline">
@@ -446,6 +458,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="data/i18n.js"></script>
   <script src="data/curriculum.js"></script>
   <script src="data/simulators.js"></script>
   <script src="app.js"></script>
