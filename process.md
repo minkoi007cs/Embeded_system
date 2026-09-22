@@ -103,5 +103,21 @@ Khi thực hiện commit mới, hãy sao chép mẫu dưới đây và điền �
   - Việc mô phỏng động học xe 2 bánh vi sai đòi hỏi tích phân Euler góc theta chính xác ở chu kỳ cao để tránh sai số lũy tiến (Drift).
   - Mô phỏng khâu chống bão hòa tích phân (Anti-windup) của PID cần tính toán clamping trước khi nạp vào thanh ghi bão hòa để hệ thống không bị trễ pha.
 - **🚀 Kế hoạch cho commit tiếp theo**:
-  - Người dùng kiểm tra trực tiếp các chức năng trên ứng dụng và đóng góp phản hồi về phần cứng thực tế.
+  - Cấu hình tệp vercel.json và triển khai ứng dụng lên nền tảng Vercel Hosting.
+
+---
+
+### [2026-09-22] - Commit: `chore(deploy): Cấu hình vercel.json tối ưu hóa định tuyến và bảo mật triển khai Vercel`
+
+- **🎯 Mục tiêu của commit**:
+  - Chuẩn bị file cấu hình `vercel.json` phục vụ việc deploy ứng dụng Web lên nền tảng Vercel Cloud.
+  - Cấu hình Clean URLs, bộ đệm tài nguyên tĩnh (Cache-Control) cho CSS/JS và các Header an ninh (X-Content-Type-Options, X-Frame-Options, XSS-Protection).
+- **📝 Chi tiết thay đổi**:
+  - `vercel.json`: Tạo mới file cấu hình triển khai Vercel chuẩn.
+- **🗺️ Tiến độ trên Roadmap (`tech.md`)**:
+  - [x] Triển khai ứng dụng lên Cloud Production (Vercel Deployment).
+- **💡 Khó khăn, Lỗi gặp phải & Lưu ý kỹ thuật (Gotchas)**:
+  - Ứng dụng là dạng Vanilla Single Page Application, không yêu cầu build step nên Vercel nhận diện và triển khai tức thì trong vài giây (Zero-configuration deployment).
+- **🚀 Kế hoạch cho commit tiếp theo**:
+  - Đẩy commit lên GitHub và hướng dẫn người dùng kết nối Vercel chỉ với 1 click.
 
