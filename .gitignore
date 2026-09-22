@@ -1,0 +1,22 @@
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build Artifacts & Temp Files
+build/
+bin/
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+.vscode/.history/
+.idea/
+*.swp
+*~
