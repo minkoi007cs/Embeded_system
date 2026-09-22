@@ -4,7 +4,9 @@
   "description": "> **Kho tri thức và Lộ trình Tự học Toàn diện Chuyên ngành Hệ thống Nhúng & Robotics**   > Dành cho sinh viên, kỹ sư và những người đam mê công nghệ muốn chinh phục từ con số 0 đến cấp độ kỹ sư thực chiến.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "test": "node -c app.js && node -c data/curriculum.js && node -c data/simulators.js"
   },
   "keywords": [],
   "author": "",
